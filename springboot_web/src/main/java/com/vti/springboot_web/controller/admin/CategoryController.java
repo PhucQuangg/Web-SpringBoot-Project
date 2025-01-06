@@ -3,6 +3,8 @@ package com.vti.springboot_web.controller.admin;
 import com.vti.springboot_web.entity.category.Category;
 import com.vti.springboot_web.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +18,15 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @GetMapping("/category")
-    public String index(Model model){
-        List<Category> categoryList = categoryService.getAll();
+    public String index(Model model, @Param("keyword") String keyword, @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum){
+
+        Page<Category> categoryList = categoryService.getAllPage(pageNum);
+        if(keyword !=null){
+            categoryList = categoryService.searchCategory(keyword,pageNum);
+            model.addAttribute("keyword",keyword);
+        }
+        model.addAttribute("totalPage",categoryList.getTotalPages());
+        model.addAttribute("currentPage",pageNum);
         model.addAttribute("cateList",categoryList);
         return "admin/category/index";
     }
@@ -35,7 +44,7 @@ public class CategoryController {
         if(categoryService.createCate(category)){
             return "redirect:/admin/category";
         }else {
-            return "amin/category/add";
+            return "admin/category/add";
         }
     }
 
@@ -51,7 +60,7 @@ public class CategoryController {
         if(categoryService.updateCate(category)){
             return "redirect:/admin/category";
         }else {
-            return "amin/category/add";
+            return "admin/category/add";
         }
     }
 

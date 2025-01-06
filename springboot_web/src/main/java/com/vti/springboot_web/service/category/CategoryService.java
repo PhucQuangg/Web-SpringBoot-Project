@@ -3,6 +3,10 @@ package com.vti.springboot_web.service.category;
 import com.vti.springboot_web.entity.category.Category;
 import com.vti.springboot_web.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,4 +57,26 @@ public class CategoryService implements ICategoryService{
         }
         return false;
     }
+
+    @Override
+    public List<Category> searchCategory(String keyword) {
+        return categoryRepository.searchCate(keyword);
+    }
+
+    @Override
+    public Page<Category> getAllPage(Integer pageNum) {
+        Pageable pageable = PageRequest.of(pageNum-1,2);
+        return categoryRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Category> searchCategory(String keyword, Integer pageNum) {
+        List list = searchCategory(keyword);
+        Pageable pageable=PageRequest.of(pageNum-1,2);
+        Integer start = (int) pageable.getOffset();
+        Integer end = (int )(pageable.getOffset() + pageable.getPageSize()> list.size() ? list.size() : pageable.getOffset() + pageable.getPageSize());
+        list = list.subList(start,end);
+        return new PageImpl<Category>(list,pageable,searchCategory(keyword).size());
+    }
+
 }
