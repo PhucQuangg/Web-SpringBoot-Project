@@ -18,13 +18,10 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Blank page
-        <small>it all starts here</small>
+        Quản Lý Danh Mục
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Examples</a></li>
-        <li class="active">Blank page</li>
+        <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
       </ol>
     </section>
 
@@ -34,13 +31,13 @@
         <div class="box">
           <div class="box-header with-border">
             <h3 class="box-title">Danh sách danh mục</h3>
-            <div>
+            <div style="padding-top: 10px;">
               <a class="btn btn-success" href="add-category">Thêm mới danh mục</a>
             </div>
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <form>
+            <form style="padding-bottom: 10px;">
               <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
                 <input type="text" name="keyword" class="form-control pull-right" placeholder="Search" th:value="${keyword}">
                 <div class="input-group-btn">

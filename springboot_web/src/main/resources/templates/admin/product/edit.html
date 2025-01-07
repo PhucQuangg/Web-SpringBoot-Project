@@ -30,38 +30,46 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="col-md-6">
+      <div >
         <div class="box box-primary">
           <div class="box-header with-border">
             <h3 class="box-title">Quick Example</h3>
           </div>
           <!-- /.box-header -->
           <!-- form start -->
-          <form role="form" method="post" th:action="@{/admin/edit-category}" th:object="${category}">
-            <input type="hidden" class="form-control" id="cateid" th:field="*{id}">
-
+          <form role="form" method="post" th:action="@{/admin/edit-product}" th:object="${product}" enctype="multipart/form-data">
             <div class="box-body">
               <div class="form-group">
-                <label for="exampleInputEmail1">Category Name</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{categoryName}">
+                <label for="name">Product Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{productName}">
               </div>
               <div class="form-group">
-                <label for="exampleInputEmail1">Category Status</label>
+                <label for="price">Price</label>
+                <input type="text" class="form-control" id="price" th:field="*{price}">
+              </div>
+              <div class="form-group">
+                <label for="hinhanh">Images</label>
+                <input type="file" class="form-control" id="hinhanh" name="fileImage" onchange="displayFileName()">
+                <div id="fileNameDisplay" style="padding-top: 10px;">
+                  <span th:text="${imageName}"></span> <!-- Hiển thị tên hình ảnh hiện tại -->
+                </div>
                 <div>
-                  <div class="form-check form-check-inline">
-                    <input type="radio" class="form-check-input"  value="1" th:field="*{categoryStatus}" checked="checked"/>
-                    <label class="form-check-label" for="inlineRadio1">Active</label>
-                  </div>
-
-                  <div class="form-check form-check-inline">
-                    <input type="radio"  class="form-check-input" value="0" th:field="*{categoryStatus}"/>
-                    <label class="form-check-label" for="inlineRadio2">Hidden</label>
-                  </div>
-
+                  <img th:src="@{${imagePath}}" style="padding-top: 10px;" width="150px" height="150px" alt="User Image">
                 </div>
               </div>
+              <div class="form-group">
+                <div class="form-group" data-select2-id="13">
+                  <label>Category</label>
+                  <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"  th:field="*{category.id}" >
+                    <option th:each="category : ${listCate}" th:value="${category.id}" th:text="${category.categoryName}"></option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="editor1">Description</label>
+                <textarea name="editor1" id="editor1" rows="10" cols="80" th:field="*{description}"></textarea>
+              </div>
             </div>
-            <!-- /.box-body -->
 
             <div class="box-footer">
               <button type="submit" class="btn btn-primary">Update</button>
@@ -70,19 +78,19 @@
         </div>
       </div>
     </section>
-    <!-- /.content -->
   </div>
-  <!-- /.content-wrapper -->
-
-  <div th:replace="admin/fragments/footer::footer"></div>
-
-
 </div>
-<!-- ./wrapper -->
-
-<!-- jQuery 3 -->
 
 <div th:replace="admin/fragments/script::script"></div>
+<script src="https://cdn.ckeditor.com/4.22.0/standard/ckeditor.js"></script>
+<script> CKEDITOR.replace('editor1'); </script>
+<script>
+  function displayFileName() {
+    var fileInput = document.getElementById("hinhanh");
+    var fileName = fileInput.files[0] ? fileInput.files[0].name : "No file chosen";
+    document.getElementById("fileNameDisplay").innerText = "Chosen file: " + fileName;
+  }
+</script>
 
 </body>
 </html>

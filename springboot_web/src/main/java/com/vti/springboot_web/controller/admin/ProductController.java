@@ -11,6 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Controller
@@ -48,6 +53,59 @@ public class ProductController {
             return "redirect:/admin/product";
         }else {
             return "admin/product/add";
+        }
+    }
+
+    @GetMapping("/delete-product/{id}")
+    public String deleteProduct(@PathVariable("id") Integer id){
+        if(productService.deleteProduct(id)){
+            return "redirect:/admin/product";
+        }else {
+            return "redirect:/admin/product";
+        }
+    }
+
+    @GetMapping("/edit-product/{id}")
+    public String editProduct(Model model, @PathVariable("id") Integer id){
+        Product product = productService.findById(id);
+        model.addAttribute("product",product);
+        model.addAttribute("listCate", categoryService.getAll());
+        String imagePath = "/uploads/" + product.getImage();
+        model.addAttribute("imagePath", imagePath);
+        model.addAttribute("imageName", product.getImage());
+        return "admin/product/edit";
+    }
+
+    @PostMapping("/edit-product")
+    public String updateProduct(@ModelAttribute("product") Product product,@RequestParam(value = "fileImage", required = false) MultipartFile file){
+       if(!file.isEmpty()){
+           try {
+               // Lưu file hình ảnh vào thư mục uploads và lấy tên file
+               String fileName = file.getOriginalFilename();
+               String uploadDir = "/path/to/uploads/";  // Đảm bảo bạn thay thế bằng đường dẫn thực tế
+
+               // Tạo đối tượng Path cho thư mục đích
+               Path path = Path.of(uploadDir, fileName);
+
+               // Sử dụng try-with-resources để tự động đóng các luồng
+               try (InputStream inputStream = file.getInputStream()) {
+                   Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+               }
+
+               // Cập nhật tên hình ảnh vào đối tượng product
+               product.setImage(fileName);
+           } catch (IOException e) {
+               e.printStackTrace();  // Xử lý lỗi hợp lý
+               return "errorPage";  // Trang lỗi nếu không thể tải ảnh
+           }
+       }
+       else{
+           product.setImage(product.getImage());
+       }
+        if (productService.updateProduct(product)) {
+            return "redirect:/admin/product";  // Chuyển hướng đến trang danh sách sản phẩm
+        } else {
+            return "admin/product/add";  // Trở lại trang thêm sản phẩm nếu có lỗi
         }
     }
 }

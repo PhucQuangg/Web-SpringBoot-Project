@@ -29,16 +29,28 @@ public class ProductService implements IProductService{
 
     @Override
     public Product findById(Integer id) {
-        return null;
+        return productRepository.findById(id).orElse(null);
     }
 
     @Override
     public Boolean updateProduct(Product product) {
-        return null;
+        try{
+            productRepository.save(product);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
     public Boolean deleteProduct(Integer id) {
-        return null;
+        try{
+            productRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

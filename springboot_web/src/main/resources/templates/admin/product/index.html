@@ -56,7 +56,8 @@
                 <td th:text="${product.category.categoryName}"></td>
 
                 <td>
-                  <a class="btn btn-success">Edit</a>
+                  <a th:href="@{/admin/edit-product/{id}(id=${product.id})}"  class="btn btn-success">Edit</a>
+                  <a th:href="@{/admin/delete-product/{id}(id=${product.id})}"  class="btn btn-danger" onclick="return confirm('Bạn chắc chắn xóa không')">Delete</a>
 
                 </td>
 
