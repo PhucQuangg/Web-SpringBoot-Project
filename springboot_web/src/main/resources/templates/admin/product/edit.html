@@ -38,6 +38,8 @@
           <!-- /.box-header -->
           <!-- form start -->
           <form role="form" method="post" th:action="@{/admin/edit-product}" th:object="${product}" enctype="multipart/form-data">
+            <input type="hidden" class="form-control" id="productid" th:field="*{id}">
+            <input type="hidden" th:field="*{image}" />
             <div class="box-body">
               <div class="form-group">
                 <label for="name">Product Name</label>

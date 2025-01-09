@@ -77,35 +77,17 @@ public class ProductController {
     }
 
     @PostMapping("/edit-product")
-    public String updateProduct(@ModelAttribute("product") Product product,@RequestParam(value = "fileImage", required = false) MultipartFile file){
-       if(!file.isEmpty()){
-           try {
-               // Lưu file hình ảnh vào thư mục uploads và lấy tên file
-               String fileName = file.getOriginalFilename();
-               String uploadDir = "/path/to/uploads/";  // Đảm bảo bạn thay thế bằng đường dẫn thực tế
-
-               // Tạo đối tượng Path cho thư mục đích
-               Path path = Path.of(uploadDir, fileName);
-
-               // Sử dụng try-with-resources để tự động đóng các luồng
-               try (InputStream inputStream = file.getInputStream()) {
-                   Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
-               }
-
-               // Cập nhật tên hình ảnh vào đối tượng product
-               product.setImage(fileName);
-           } catch (IOException e) {
-               e.printStackTrace();  // Xử lý lỗi hợp lý
-               return "errorPage";  // Trang lỗi nếu không thể tải ảnh
-           }
-       }
-       else{
-           product.setImage(product.getImage());
-       }
+    public String updateProduct(@ModelAttribute("product") Product product, @RequestParam("fileImage") MultipartFile file){
+        if (!file.isEmpty()) {
+            storageService.store(file);
+            product.setImage(file.getOriginalFilename());
+        }else {
+            product.setImage(product.getImage());
+        }
         if (productService.updateProduct(product)) {
-            return "redirect:/admin/product";  // Chuyển hướng đến trang danh sách sản phẩm
+            return "redirect:/admin/product";
         } else {
-            return "admin/product/add";  // Trở lại trang thêm sản phẩm nếu có lỗi
+            return "admin/product/add";
         }
     }
 }
