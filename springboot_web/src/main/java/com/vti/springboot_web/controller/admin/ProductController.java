@@ -6,16 +6,13 @@ import com.vti.springboot_web.service.category.ICategoryService;
 import com.vti.springboot_web.service.product.IProductService;
 import com.vti.springboot_web.service.storage.IStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Controller
@@ -29,8 +26,15 @@ public class ProductController {
     private IStorageService storageService;
 
     @GetMapping("/product")
-    public String index(Model model) {
-        List<Product> productList = productService.getAll();
+    public String index(Model model, @Param("keyword") String keyword, @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum) {
+
+        Page<Product> productList = productService.getAllPageProduct(pageNum);
+        if(keyword != null){
+            productList = productService.searchProduct(keyword,pageNum);
+            model.addAttribute("keyword",keyword);
+        }
+        model.addAttribute("totalPage",productList.getTotalPages());
+        model.addAttribute("currentPage",pageNum);
         model.addAttribute("productList",productList);
         return "admin/product/index";
     }
@@ -72,7 +76,6 @@ public class ProductController {
         model.addAttribute("listCate", categoryService.getAll());
         String imagePath = "/uploads/" + product.getImage();
         model.addAttribute("imagePath", imagePath);
-        model.addAttribute("imageName", product.getImage());
         return "admin/product/edit";
     }
 
