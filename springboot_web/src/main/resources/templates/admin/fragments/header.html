@@ -2,7 +2,7 @@
   <!-- Logo -->
   <a href="/admin" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>A</b>LT</span>
+    <span class="logo-mini"><b>P</b>Q</span>
     <!-- logo for regular state and mobile devices -->
     <span class="logo-lg">PQ Billiards</span>
   </a>
@@ -113,8 +113,7 @@
               <img th:src="@{/assets/images/user2-160x160.jpg}" class="img-circle" alt="User Image">
 
               <p>
-                Alexander Pierce - Web Developer
-                <small>Member since Nov. 2012</small>
+                <span class="hidden-xs"><span sec:authentication ="name"></span></span>
               </p>
             </li>
             <!-- Menu Body -->

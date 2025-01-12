@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
     @GetMapping
     public String index(){
-        return "redirect:/admin/";
+        return "redirect:/admin/dashboard";
     }
-    @RequestMapping("/")
-    public String admin(){
-        return "admin/index";
+    @RequestMapping("/dashboard")
+    public String dashboard(){
+        return "admin/dashboard";
     }
 }
