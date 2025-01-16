@@ -1,9 +1,9 @@
 package com.vti.springboot_web.entity.product;
 
-import com.vti.springboot_web.entity.category.Category;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "products")
@@ -14,29 +14,41 @@ public class Product {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "productCode")
+    private String productCode;
     @Column(name = "productName")
     private String productName;
-    @Column(name = "price")
-    private Double price;
-    @Column(name = "image")
-    private String image;
+    @Column(name = "attributes")
+    private String attributes;
+    @Column(name = "supplier")
+    private String supplier;
     @Column(name = "description")
     private String description;
+    @Column(name = "images")
+    private String image;
+    @Column(name = "price")
+    private Double price;
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private ProductDetail productDetail;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId", referencedColumnName = "id")
-    private Category category;
-
+    @JoinColumn(name = "productLineId", referencedColumnName = "id")
+    private ProductLine productLine;
     public Product() {
     }
 
-    public Product(Integer id, String productName, Double price, String image, String description, Category category) {
+    public Product(Integer id, String productCode, String productName, String attributes, String supplier, String description, String image, Double price, ProductDetail productDetail, ProductLine productLine) {
         this.id = id;
+        this.productCode = productCode;
         this.productName = productName;
-        this.price = price;
-        this.image = image;
+        this.attributes = attributes;
+        this.supplier = supplier;
         this.description = description;
-        this.category = category;
+        this.image = image;
+        this.price = price;
+        this.productDetail = productDetail;
+        this.productLine = productLine;
     }
 }
+
 

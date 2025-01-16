@@ -1,5 +1,6 @@
 package com.vti.springboot_web.service.product;
 
+import com.vti.springboot_web.entity.category.Category;
 import com.vti.springboot_web.entity.product.Product;
 import com.vti.springboot_web.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,11 +73,12 @@ public class ProductService implements IProductService{
 
     @Override
     public Page<Product> searchProduct(String keyword, Integer pageNum) {
-        List list = searchProduct(keyword);
-        Pageable pageable = PageRequest.of(pageNum-1,2);
-        Integer start = (int) pageable.getOffset();
-        Integer end = (int) (pageable.getOffset() + pageable.getPageSize() > list.size() ? list.size() : pageable.getOffset() + pageable.getPageSize());
-        list.subList(start,end);
-        return new PageImpl<>(list,pageable,searchProduct(keyword).size());
+        List<Product> list = searchProduct(keyword);
+        Pageable pageable = PageRequest.of(pageNum - 1, 2);
+        int start = (int) pageable.getOffset();
+        int end = Math.min(start + pageable.getPageSize(), list.size());
+        List<Product> subList = start > list.size() ? new ArrayList<>() : list.subList(start, end);
+        return new PageImpl<>(subList, pageable, list.size());
     }
+
 }

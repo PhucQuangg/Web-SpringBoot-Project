@@ -26,18 +26,21 @@ public class ProductController {
     private IStorageService storageService;
 
     @GetMapping("/product")
-    public String index(Model model, @Param("keyword") String keyword, @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum) {
-
-        Page<Product> productList = productService.getAllPageProduct(pageNum);
-        if(keyword != null){
-            productList = productService.searchProduct(keyword,pageNum);
-            model.addAttribute("keyword",keyword);
+    public String index(Model model, @Param("keyword") String keyword, @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum) {
+        Page<Product> productList;
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            productList = productService.searchProduct(keyword, pageNum);
+            model.addAttribute("keyword", keyword);
+        } else {
+            productList = productService.getAllPageProduct(pageNum);
+            model.addAttribute("keyword", "");
         }
-        model.addAttribute("totalPage",productList.getTotalPages());
-        model.addAttribute("currentPage",pageNum);
-        model.addAttribute("productList",productList);
+        model.addAttribute("totalPage", productList.getTotalPages());
+        model.addAttribute("currentPage", pageNum);
+        model.addAttribute("productList", productList);
         return "admin/product/index";
     }
+
 
     @GetMapping("/product-add")
     public String addProduct(Model model){
