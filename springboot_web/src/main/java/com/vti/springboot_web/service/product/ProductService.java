@@ -1,6 +1,5 @@
 package com.vti.springboot_web.service.product;
 
-import com.vti.springboot_web.entity.category.Category;
 import com.vti.springboot_web.entity.product.Product;
 import com.vti.springboot_web.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;

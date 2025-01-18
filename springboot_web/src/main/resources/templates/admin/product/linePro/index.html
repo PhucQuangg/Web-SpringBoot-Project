@@ -32,7 +32,7 @@
           <div class="box-header with-border">
             <h3 class="box-title">Danh sách danh mục</h3>
             <div style="padding-top: 10px;">
-              <a class="btn btn-success" href="add-category">Thêm mới danh mục</a>
+              <a class="btn btn-success" href="add-productline">Thêm mới danh mục</a>
             </div>
           </div>
           <!-- /.box-header -->
@@ -49,24 +49,28 @@
             <table class="table table-bordered">
               <tbody><tr>
                 <th style="width: 10px">ID</th>
-                <th>Category Name</th>
+                <th>Name</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
-              <tr th:each="category : ${cateList}">
-                <td th:text="${category.id}"></td>
-                <td th:text="${category.categoryName}"></td>
+              <tr th:each="productLine : ${productLineList}">
+                <td th:text="${productLine.id}"></td>
+                <td th:text="${productLine.name}"></td>
                 <td>
-                  <th:block th:if="${category.categoryStatus}">
+                  <th:block th:if="${productLine.Status}">
                     <span class="label label-success">Hiện</span>
                   </th:block>
-                  <th:block th:if="${!category.categoryStatus}">
+                  <th:block th:if="${!productLine.Status}">
                     <span class="label label-danger">Ẩn</span>
                   </th:block>
                 </td>
                 <td>
-                  <a th:href="@{/admin/edit-category/{id}(id=${category.id})}"  class="btn btn-success">Edit</a>
-                  <a th:href="@{/admin/delete-category/{id}(id=${category.id})}"  class="btn btn-danger" onclick="return confirm('Bạn chắc chắn xóa không')">Delete</a>
+                  <a th:href="@{/admin/edit-productLine/{id}(id=${productLine.id})}"  class="btn btn-success">
+                    <i class="fas fa-wrench"></i>
+                  </a>
+                  <a th:href="@{/admin/delete-productLine/{id}(id=${productLine.id})}"  class="btn btn-danger" onclick="return confirm('Bạn chắc chắn xóa không')">
+                    <i class="fas fa-trash-alt"></i>
+                  </a>
 
                 </td>
 

@@ -1,8 +1,8 @@
 package com.vti.springboot_web.controller.admin;
 
-import com.vti.springboot_web.entity.category.Category;
+import com.vti.springboot_web.entity.product.ProductLine;
 import com.vti.springboot_web.entity.product.Product;
-import com.vti.springboot_web.service.category.ICategoryService;
+import com.vti.springboot_web.service.product.productline.IProductLineService;
 import com.vti.springboot_web.service.product.IProductService;
 import com.vti.springboot_web.service.storage.IStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/admin")
 public class ProductController {
     @Autowired
-    private ICategoryService categoryService;
+    private IProductLineService productLineService;
     @Autowired
     private IProductService productService;
     @Autowired
@@ -46,8 +46,8 @@ public class ProductController {
     public String addProduct(Model model){
         Product product = new Product();
         model.addAttribute("product",product);
-        List<Category> listCate = categoryService.getAll();
-        model.addAttribute("listCate",listCate);
+        List<ProductLine> productLineList = productLineService.getAll();
+        model.addAttribute("productLineList",productLineList);
         return "admin/product/add";
     }
 
@@ -76,7 +76,7 @@ public class ProductController {
     public String editProduct(Model model, @PathVariable("id") Integer id){
         Product product = productService.findById(id);
         model.addAttribute("product",product);
-        model.addAttribute("listCate", categoryService.getAll());
+        model.addAttribute("productLineList", productLineService.getAll());
         String imagePath = "/uploads/" + product.getImage();
         model.addAttribute("imagePath", imagePath);
         return "admin/product/edit";

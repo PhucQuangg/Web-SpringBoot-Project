@@ -35,22 +35,22 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form role="form" method="post" th:action="@{/admin/add-category}" th:object="${category}">
+                    <form role="form" method="post" th:action="@{/admin/add-productline}" th:object="${productLine}">
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Category Name</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{categoryName}">
+                                <label for="exampleInputEmail1">Name</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" th:field="*{name}">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Category Status</label>
+                                <label for="exampleInputEmail1">Status</label>
                                 <div>
                                     <div class="form-check form-check-inline">
-                                        <input type="radio" class="form-check-input"  value="1" th:field="*{categoryStatus}" checked="checked"/>
+                                        <input type="radio" class="form-check-input"  value="1" th:field="*{Status}" checked="checked"/>
                                         <label class="form-check-label" for="inlineRadio1">Active</label>
                                     </div>
 
                                     <div class="form-check form-check-inline">
-                                        <input type="radio"  class="form-check-input" value="0" th:field="*{categoryStatus}"/>
+                                        <input type="radio"  class="form-check-input" value="0" th:field="*{Status}"/>
                                         <label class="form-check-label" for="inlineRadio2">Hidden</label>
                                     </div>
 

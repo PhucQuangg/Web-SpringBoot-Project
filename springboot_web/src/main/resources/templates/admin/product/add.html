@@ -37,28 +37,33 @@
                     <form role="form" method="post" th:action="@{/admin/product-add}" th:object="${product}" enctype="multipart/form-data">
                         <div class="box-body">
                             <div class="form-group">
+                                <label for="name">Product Code</label>
+                                <input type="text" class="form-control" id="code" th:field="*{productCode}">
+                            </div>
+                            <div class="form-group">
                                 <label for="name">Product Name</label>
                                 <input type="text" class="form-control" id="name" th:field="*{productName}">
                             </div>
                             <div class="form-group">
-                                <label for="price">Price</label>
-                                <input type="text" class="form-control" id="price" th:field="*{price}">
+                                <label for="name">Supplier</label>
+                                <input type="text" class="form-control" id="supplier" th:field="*{supplier}">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="form-group" data-select2-id="13">
+                                    <label>Line</label>
+                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"  th:field="*{productLine.id}" >
+                                        <option th:each="productLine : ${productLineList}" th:value="${productLine.id}" th:text="${productLine.name}"></option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="hinhanh">Images</label>
                                 <input type="file" class="form-control" id="hinhanh" name="fileImage">
                             </div>
                             <div class="form-group">
-                                <div class="form-group" data-select2-id="13">
-                                    <label>Category</label>
-                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"  th:field="*{category.id}" >
-                                        <option th:each="category : ${listCate}" th:value="${category.id}" th:text="${category.categoryName}"></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="editor1">Description</label>
-                                <textarea name="editor1" id="editor1" rows="10" cols="80" th:field="*{description}"></textarea>
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control" id="description" th:field="*{description}">
                             </div>
                         </div>
 
@@ -73,7 +78,6 @@
 </div>
 
 <div th:replace="admin/fragments/script::script"></div>
-<script src="https://cdn.ckeditor.com/4.22.0/standard/ckeditor.js"></script>
-<script> CKEDITOR.replace('editor1'); </script>
+
 </body>
 </html>
