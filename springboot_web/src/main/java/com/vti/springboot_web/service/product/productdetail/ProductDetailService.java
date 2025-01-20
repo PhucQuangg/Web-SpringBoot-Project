@@ -15,4 +15,20 @@ public class ProductDetailService implements IProductDetailService{
     public List<ProductDetail> getAll() {
         return productDetailRepository.findAll();
     }
+
+    @Override
+    public ProductDetail findById(Integer id) {
+        return productDetailRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Boolean createDetail(ProductDetail productDetail) {
+        try{
+            productDetailRepository.save(productDetail);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

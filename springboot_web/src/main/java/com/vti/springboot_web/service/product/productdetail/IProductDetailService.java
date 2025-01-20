@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IProductDetailService {
     List<ProductDetail> getAll();
+    ProductDetail findById(Integer id);
+    Boolean createDetail(ProductDetail productDetail);
 }
