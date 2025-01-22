@@ -49,14 +49,16 @@
             <table class="table table-bordered">
               <tbody><tr>
                 <th style="width: 10px">ID</th>
+                <th>Product Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Action</th>
               </tr>
               <tr th:each="productDetail : ${productdetailList}">
                 <td th:text="${productDetail.id}"></td>
+                <td th:text="${productDetail.product.productName}"></td>
                 <td th:text="${productDetail.quantity}"></td>
-                <td th:text="${productDetail.price]}"></td>
+                <td th:text="${productDetail.price}"></td>
                 <td>
                   <a th:href="@{/admin/edit-productLine/{id}(id=${productDetail.id})}"  class="btn btn-success">
                     <i class="fas fa-wrench"></i>
