@@ -29,6 +29,10 @@ public class ProductDetailService implements IProductDetailService{
     @Override
     public Boolean createDetail(ProductDetail productDetail) {
         try{
+            ProductDetail existingDetail = productDetailRepository.findById(productDetail.getProduct().getId()).orElse(null);
+            if (existingDetail != null) {
+                return false;
+            }
             productDetailRepository.save(productDetail);
             return true;
         }catch (Exception e){
@@ -56,5 +60,16 @@ public class ProductDetailService implements IProductDetailService{
         int end = Math.min(start + pageable.getPageSize(), list.size());
         List<ProductDetail> sublist = start > list.size() ? new ArrayList<>() : list.subList(start,end);
         return new  PageImpl<>(sublist,pageable,list.size());
+    }
+
+    @Override
+    public Boolean updateDetail(ProductDetail productDetail) {
+        try {
+            productDetailRepository.save(productDetail);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

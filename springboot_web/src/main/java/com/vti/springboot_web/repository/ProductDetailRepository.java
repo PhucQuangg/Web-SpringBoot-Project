@@ -8,9 +8,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductDetailRepository extends JpaRepository<ProductDetail,Integer> {
-    @Query("SELECT pd FROM ProductDetail pd" + "JOIN pd.product p WHERE" +
-            "(p.productName LIKE %?1% OR ?1 IS NULL)"+
-            "AND (pd.quantity = ?2 OR ?2 IS NULL)" +
-            "AND (pd.price = ?3 OR ?3 IS NULL)")
+    @Query("SELECT pd FROM ProductDetail pd " + "JOIN pd.product p WHERE" +
+            "(p.productName LIKE %?1% OR ?1 IS NULL)")
     List<ProductDetail> searchProductDetail(String keyword);
 }

@@ -22,9 +22,18 @@ public class ProductDetailController {
     @Autowired
     private IProductService productService;
     @GetMapping("/productDetail")
-    public String index(Model model){
-        List<ProductDetail> productDetailList = productDetailService.getAll();
-        model.addAttribute("productdetailList",productDetailList);
+    public String index(Model model, @Param("keyword") String keyword, @RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum){
+//        List<ProductDetail> productDetailList = productDetailService.getAll();
+//        model.addAttribute("productdetailList",productDetailList);
+//        return "admin/product/detail/index";
+        Page<ProductDetail> productDetailPage = productDetailService.getAllPageProDetails(pageNum);
+        if(keyword != null){
+            productDetailPage = productDetailService.searchProDetail(keyword, pageNum);
+            model.addAttribute("keyword",keyword);
+        }
+        model.addAttribute("totalPage",productDetailPage.getTotalPages());
+        model.addAttribute("currentPage",pageNum);
+        model.addAttribute("productdetailList",productDetailPage);
         return "admin/product/detail/index";
     }
 
@@ -38,12 +47,31 @@ public class ProductDetailController {
     }
 
     @PostMapping("/add-detail")
-    public String saveDetail(@ModelAttribute("productdetail") ProductDetail productDetail){
+    public String saveDetail(Model model,@ModelAttribute("productdetail") ProductDetail productDetail){
         if(productDetailService.createDetail(productDetail)){
-            return "redirect:/admin/productdetail";
+            return "redirect:/admin/productDetail";
         }
         else {
+            model.addAttribute("errorMessage", "Chi tiết sản phẩm đã tồn tại!");
+            model.addAttribute("productlist", productService.getAll());
             return "admin/product/detail/add";
+        }
+    }
+
+    @GetMapping("/edit-detail/{id}")
+    public String editDetail(Model model,@PathVariable("id") Integer id){
+        ProductDetail productDetail = productDetailService.findById(id);
+        model.addAttribute("productdetail",productDetail);
+        model.addAttribute("productlist",productService.getAll());
+        return "admin/product/detail/edit";
+    }
+    @PostMapping("/edit-detail")
+    public String updateDetail(@ModelAttribute("productdetail") ProductDetail productDetail){
+        if(productDetailService.updateDetail(productDetail)){
+            return "redirect:/admin/productDetail";
+        }
+        else {
+            return "admin/product/detail/edit";
         }
     }
 }

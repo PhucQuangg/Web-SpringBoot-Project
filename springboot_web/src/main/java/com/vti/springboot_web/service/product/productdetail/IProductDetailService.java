@@ -12,4 +12,5 @@ public interface IProductDetailService {
     List<ProductDetail> searchProDetail(String keyword);
     Page<ProductDetail> getAllPageProDetails(Integer pageNum);
     Page<ProductDetail> searchProDetail(String keyword,Integer pageNum);
+    Boolean updateDetail(ProductDetail productDetail);
 }
