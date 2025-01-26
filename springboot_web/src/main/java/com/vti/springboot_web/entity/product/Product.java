@@ -1,5 +1,6 @@
 package com.vti.springboot_web.entity.product;
 
+import com.vti.springboot_web.entity.Supplier;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,10 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "productLineId", referencedColumnName = "id")
     private ProductLine productLine;
+
+    @ManyToOne
+    @JoinColumn(name = "supplierId",referencedColumnName = "id")
+    private Supplier suppliers;
     public Product() {
     }
 

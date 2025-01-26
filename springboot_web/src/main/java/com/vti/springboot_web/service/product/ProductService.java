@@ -21,9 +21,23 @@ public class ProductService implements IProductService{
         return productRepository.findAll();
     }
 
+    public Boolean isProductExist(String productName) {
+        Product existingProduct = productRepository.findByProductName(productName);
+        return existingProduct != null;
+    }
+
+    public Boolean isProductCodeExist(String productCode) {
+        Product existingProduct = productRepository.findByProductCode(productCode);
+        return existingProduct != null;
+    }
     @Override
     public Boolean createProduct(Product product) {
         try{
+            if (isProductExist(product.getProductName())){
+                return false;
+            }else if(isProductCodeExist(product.getProductCode())){
+                return false;
+            }
             productRepository.save(product);
             return true;
         }catch (Exception e){
@@ -40,6 +54,16 @@ public class ProductService implements IProductService{
     @Override
     public Boolean updateProduct(Product product) {
         try{
+            Product existingProduct = productRepository.findByProductCode(product.getProductCode());
+
+            if (existingProduct != null && !existingProduct.getId().equals(product.getId())) {
+                return false;
+            }
+
+            existingProduct = productRepository.findByProductName(product.getProductName());
+            if (existingProduct != null && !existingProduct.getId().equals(product.getId())) {
+                return false;
+            }
             productRepository.save(product);
             return true;
         }catch (Exception e){

@@ -52,13 +52,16 @@ public class ProductController {
     }
 
     @PostMapping("/product-add")
-    private String saveProduct(@ModelAttribute("product") Product product, @RequestParam("fileImage") MultipartFile file){
+    private String saveProduct(Model model ,@ModelAttribute("product") Product product, @RequestParam("fileImage") MultipartFile file){
         storageService.store(file);
         String fileName = file.getOriginalFilename();
         product.setImage(fileName);
         if(productService.createProduct(product)){
             return "redirect:/admin/product";
         }else {
+            model.addAttribute("errorMessage", "Sản phẩm đã tồn tại!");
+            List<ProductLine> productLineList = productLineService.getAll();
+            model.addAttribute("productLineList", productLineList);
             return "admin/product/add";
         }
     }
@@ -83,7 +86,7 @@ public class ProductController {
     }
 
     @PostMapping("/edit-product")
-    public String updateProduct(@ModelAttribute("product") Product product, @RequestParam("fileImage") MultipartFile file){
+    public String updateProduct(Model model,@ModelAttribute("product") Product product, @RequestParam("fileImage") MultipartFile file){
         if (!file.isEmpty()) {
             storageService.store(file);
             product.setImage(file.getOriginalFilename());
@@ -93,7 +96,10 @@ public class ProductController {
         if (productService.updateProduct(product)) {
             return "redirect:/admin/product";
         } else {
-            return "admin/product/add";
+            model.addAttribute("errorMessage", "Tên sản phẩm hoặc mã sản phẩm đã tồn tại!");
+            List<ProductLine> productLineList = productLineService.getAll();
+            model.addAttribute("productLineList", productLineList);
+            return "admin/product/edit";
         }
     }
 }

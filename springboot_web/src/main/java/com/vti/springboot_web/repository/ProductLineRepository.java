@@ -10,4 +10,6 @@ import java.util.List;
 public interface ProductLineRepository extends JpaRepository<ProductLine,Integer> {
     @Query("SELECT p FROM ProductLine p WHERE p.name LIKE %?1%")
     List<ProductLine> searchProductLine(String keyword);
+
+    ProductLine findByName(String linename);
 }

@@ -36,6 +36,9 @@
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form role="form" method="post" th:action="@{/admin/add-productline}" th:object="${productLine}">
+                        <div th:if="${errorMessage}" class="alert alert-danger">
+                            <p th:text="${errorMessage}"></p>
+                        </div>
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Name</label>

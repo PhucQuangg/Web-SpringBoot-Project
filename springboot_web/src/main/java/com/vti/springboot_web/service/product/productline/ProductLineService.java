@@ -21,9 +21,16 @@ public class ProductLineService implements IProductLineService{
         return productLineRepository.findAll();
     }
 
+    public Boolean isExitsLine(String linename){
+        ProductLine productLine = productLineRepository.findByName(linename);
+        return productLine != null;
+    }
     @Override
     public Boolean createProductLine(ProductLine productLine) {
         try {
+            if(isExitsLine(productLine.getName())){
+                return false;
+            }
             productLineRepository.save(productLine);
             return true;
         }catch (Exception e){
@@ -40,6 +47,10 @@ public class ProductLineService implements IProductLineService{
     @Override
     public Boolean updateProductLine(ProductLine productLine) {
         try {
+            ProductLine isExitsLine = productLineRepository.findByName(productLine.getName());
+            if (isExitsLine != null && !isExitsLine.getId().equals(productLine.getId())) {
+                return false;
+            }
             productLineRepository.save(productLine);
             return true;
         }catch (Exception e){

@@ -38,10 +38,11 @@ public class ProductLineController {
     }
 
     @PostMapping("/add-productline")
-    private String saveLine(@ModelAttribute("productLine") ProductLine productLine){
+    private String saveLine(Model model,@ModelAttribute("productLine") ProductLine productLine){
         if(productLineService.createProductLine(productLine)){
             return "redirect:/admin/productLine";
         }else {
+            model.addAttribute("errorMessage", "Dòng sản phẩm đã tồn tại!");
             return "admin/product/linePro/add";
         }
     }
@@ -54,11 +55,12 @@ public class ProductLineController {
     }
 
     @PostMapping("/edit-productLine")
-    public String updateLine(@ModelAttribute("productLine") ProductLine productLine){
+    public String updateLine(Model model,@ModelAttribute("productLine") ProductLine productLine){
         if(productLineService.updateProductLine(productLine)){
             return "redirect:/admin/productLine";
         }else {
-            return "admin/product/linePro/add";
+            model.addAttribute("errorMessage", "Dòng sản phẩm đã tồn tại!");
+            return "admin/product/linePro/edit";
         }
     }
 
