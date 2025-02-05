@@ -1,10 +1,12 @@
 package com.vti.springboot_web.controller.admin;
 
+import com.vti.springboot_web.entity.Supplier;
 import com.vti.springboot_web.entity.product.ProductLine;
 import com.vti.springboot_web.entity.product.Product;
 import com.vti.springboot_web.service.product.productline.IProductLineService;
 import com.vti.springboot_web.service.product.IProductService;
 import com.vti.springboot_web.service.storage.IStorageService;
+import com.vti.springboot_web.service.supplier.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +24,8 @@ public class ProductController {
     private IProductLineService productLineService;
     @Autowired
     private IProductService productService;
+    @Autowired
+    private ISupplierService supplierService;
     @Autowired
     private IStorageService storageService;
 
@@ -47,7 +51,9 @@ public class ProductController {
         Product product = new Product();
         model.addAttribute("product",product);
         List<ProductLine> productLineList = productLineService.getAll();
+        List<Supplier> supplierList = supplierService.getAll();
         model.addAttribute("productLineList",productLineList);
+        model.addAttribute("supplierList",supplierList);
         return "admin/product/add";
     }
 
@@ -61,7 +67,9 @@ public class ProductController {
         }else {
             model.addAttribute("errorMessage", "Sản phẩm đã tồn tại!");
             List<ProductLine> productLineList = productLineService.getAll();
+            List<Supplier> supplierList = supplierService.getAll();
             model.addAttribute("productLineList", productLineList);
+           model.addAttribute("supplierList",supplierList);
             return "admin/product/add";
         }
     }

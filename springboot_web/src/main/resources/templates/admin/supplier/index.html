@@ -30,7 +30,7 @@
           <!-- /.box-header -->
           <div class="box-body">
             <div style="padding-bottom: 10px;">
-              <a class="btn btn-success" href="product-add">Thêm nhà cung cấp</a>
+              <a class="btn btn-success" href="Supplier-add">Thêm nhà cung cấp</a>
             </div>
             <form style="padding-bottom: 10px;">
               <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
@@ -59,24 +59,28 @@
                   <td th:text="${supplier.name}"></td>
                   <td th:text="${supplier.address}"></td>
                   <td>
-                    <th:block th:if="${productLine.Status}">
-                      <span class="label label-success">Hiện</span>
+                    <th:block th:if="${supplier.status}">
+                      <span class="label label-success">Running</span>
                     </th:block>
-                    <th:block th:if="${!productLine.Status}">
-                      <span class="label label-danger">Ẩn</span>
+                    <th:block th:if="${!supplier.status}">
+                      <span class="label label-danger">Stopped</span>
                     </th:block>
-                  </td>                  <td>
-                    <a th:href="@{/admin/edit-product/{id}(id=${product.id})}" class="btn btn-success">
+                  </td>
+                  <td>
+                    <a th:href="@{/admin/edit-supplier/{id}(id=${supplier.id})}" class="btn btn-success">
                       <i class="fas fa-wrench"></i>
                     </a>
-                    <a th:href="@{/admin/delete-product/{id}(id=${product.id})}" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn xóa không')">
+                    <a th:href="@{/admin/delete-supplier/{id}(id=${supplier.id})}" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn xóa không')">
                       <i class="fas fa-trash-alt"></i>
                     </a>
                   </td>
                 </tr>
                 </tbody>
               </table>
+              </div>
             </div>
+          <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}"></p>
           </div>
           <!-- /.box-body -->
           <div class="box-footer clearfix">

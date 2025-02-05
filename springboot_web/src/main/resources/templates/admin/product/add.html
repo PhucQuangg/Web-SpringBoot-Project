@@ -48,14 +48,19 @@
                                 <input type="text" class="form-control" id="name" th:field="*{productName}">
                             </div>
                             <div class="form-group">
-                                <label for="name">Supplier</label>
-                                <input type="text" class="form-control" id="supplier" th:field="*{supplier}">
+                                <div class="form-group" data-select2-id="13">
+                                    <label>Supplier</label>
+                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" th:field="*{supplier.id}">
+                                        <option th:each="supplier : ${supplierList}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                                    </select>
+
+                                </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="form-group" data-select2-id="13">
                                     <label>Line</label>
-                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"  th:field="*{productLine.id}" >
+                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;" th:field="*{productLine.id}">
                                         <option th:each="productLine : ${productLineList}" th:value="${productLine.id}" th:text="${productLine.name}"></option>
                                     </select>
                                 </div>

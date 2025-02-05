@@ -7,4 +7,8 @@ import java.util.List;
 
 public interface ISupplierService {
     List<Supplier> getAll();
+    Boolean createSuppliers(Supplier supplier);
+    Boolean deleteSuppliers(Integer id);
+    Boolean updateSuppliers(Supplier supplier);
+    Supplier findById(Integer id);
 }

@@ -23,12 +23,12 @@ public class Supplier {
     @Column(name = "Address")
     private String address;
     @Column(name = "Status")
-    private String status;
+    private Boolean status;
 
-    @OneToMany(mappedBy = "suppliers")
+    @OneToMany(mappedBy = "supplier")
     private List<Product> product;
 
-    public Supplier(Integer id, String code, String name, String address, String status, List<Product> product) {
+    public Supplier(Integer id, String code, String name, String address, Boolean status, List<Product> product) {
         this.id = id;
         this.code = code;
         this.name = name;

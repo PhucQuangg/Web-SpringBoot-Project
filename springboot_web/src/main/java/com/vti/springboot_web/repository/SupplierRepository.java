@@ -4,4 +4,6 @@ import com.vti.springboot_web.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SupplierRepository extends JpaRepository<Supplier,Integer> {
+    Supplier findByCode(String supplierCode);
+    Supplier findByName(String supplierName);
 }

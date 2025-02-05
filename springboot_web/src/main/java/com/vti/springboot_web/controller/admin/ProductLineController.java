@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin")
@@ -65,10 +66,11 @@ public class ProductLineController {
     }
 
     @GetMapping("/delete-productLine/{id}")
-    public String deleteLine(@PathVariable("id") Integer id){
+    public String deleteLine(RedirectAttributes redirectAttributes, @PathVariable("id") Integer id){
         if(productLineService.deleteProductLine(id)){
             return "redirect:/admin/productLine";
         }else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không thể xóa dòng sản phẩm vì có sản phẩm liên quan.");
             return "redirect:/admin/productLine";
         }
     }
