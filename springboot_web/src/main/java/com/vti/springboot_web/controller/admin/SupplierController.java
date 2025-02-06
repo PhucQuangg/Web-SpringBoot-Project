@@ -3,6 +3,8 @@ package com.vti.springboot_web.controller.admin;
 import com.vti.springboot_web.entity.Supplier;
 import com.vti.springboot_web.service.supplier.ISupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,18 @@ public class SupplierController {
     private ISupplierService supplierService;
 
     @GetMapping("/Supplier")
-    public String index(Model model){
-        List<Supplier> supplierList = supplierService.getAll();
+    public String index(Model model, @Param("keyword") String keyword,@RequestParam(name = "pageNum",defaultValue = "1") Integer pageNum){
+        Page<Supplier> supplierList;
+        if(keyword != null && !keyword.trim().isEmpty()){
+            supplierList=supplierService.searchSupplier(keyword,pageNum);
+            model.addAttribute("keyword",keyword);
+        }
+        else {
+            supplierList = supplierService.getAllPageSupplier(pageNum);
+            model.addAttribute("keyword","");
+        }
+        model.addAttribute("totalPage",supplierList.getTotalPages());
+        model.addAttribute("currentPage",pageNum);
         model.addAttribute("supplierList",supplierList);
         return "admin/supplier/index";
     }
