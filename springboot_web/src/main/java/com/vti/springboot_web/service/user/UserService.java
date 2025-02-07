@@ -11,8 +11,9 @@ public class UserService implements IUserService{
     @Autowired
     private UserRepository userRepository;
 
+
     @Override
-    public User findByUserName(String username) {
-        return userRepository.findByUserName(username);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

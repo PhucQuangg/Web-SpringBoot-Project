@@ -15,8 +15,8 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "username")
-    private String userName;
+    @Column(name = "Code")
+    private String code;
     @Column(name = "password")
     private String passWord;
     @Column(name = "enabled")
@@ -38,9 +38,9 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String userName, String passWord, Boolean enabled, String fullName, Boolean gender, String address, String email, String telephone, Set<User_Role> userRoles) {
+    public User(Long id, String code, String passWord, Boolean enabled, String fullName, Boolean gender, String address, String email, String telephone, Set<User_Role> userRoles) {
         this.id = id;
-        this.userName = userName;
+        this.code = code;
         this.passWord = passWord;
         this.enabled = enabled;
         this.fullName = fullName;

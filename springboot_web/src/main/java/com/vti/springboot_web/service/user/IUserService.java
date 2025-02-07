@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface IUserService {
-    User findByUserName(String username);
+    User findByEmail(String email);
 }
